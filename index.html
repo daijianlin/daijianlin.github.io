@@ -267,7 +267,276 @@
             
               
                 
-                <a class="post-title-link" href="/2016/10/16/如何高品质地形成观点/" itemprop="url">
+                <a class="post-title-link" href="/2016/11/06/我的全栈工程师之路02-Intro-To-Rails/" itemprop="url">
+                  我的全栈工程师之路02-Intro To Rails
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-06T00:51:17+08:00" content="2016-11-06">
+              2016-11-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/全栈工程师/" itemprop="url" rel="index">
+                    <span itemprop="name">全栈工程师</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/06/我的全栈工程师之路02-Intro-To-Rails/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/06/我的全栈工程师之路02-Intro-To-Rails/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Goal"><a href="#Goal" class="headerlink" title="Goal"></a>Goal</h2><ul>
+<li>做一个Ruby on Rails实例</li>
+<li>列出过程中出现的错误</li>
+<li>总结教训继续前行</li>
+<li>背诵</li>
+</ul>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>IRB: Interative Ruby console 交互式Ruby 平台</p>
+<p>CRUD: Create, Read, Update, Destroy.</p>
+<p>gemfile: The Gemfile is a list of all the Ruby libraries your application needs.</p>
+<p>Scaffold: A scaffold in Rails is a full set of model, database migration for that model, controller to manipulate it, views to view and manipulate the data, and a test suite for each of the above.</p>
+<h2 id="重要步骤和知识点"><a href="#重要步骤和知识点" class="headerlink" title="重要步骤和知识点"></a>重要步骤和知识点</h2><p>git的使用步骤：git init-&gt;git status-&gt;git add .-&gt;git status-&gt;git commit -m “added all the things”-&gt;git status</p>
+<p>By checking your application into git now, you’re creating a record of your starting point. Whenever you make a change during today’s workshop, we’ll add it to git before moving on. This way, if anything ever breaks, or you make a change you don’t like, you can use git as an all-powerful “undo” technique. But that only works when you remember to commit early and often!</p>
+<p>运行：rails server-&gt; <a href="http://localhost:3000" target="_blank" rel="external">http://localhost:3000</a></p>
+<p>rails server run your application locally just like Heroku will be running it on their servers.</p>
+<p>Use scaffold to automatically generate the corresponding Scaffold in Rails:</p>
+<p>Step: rails generate scaffold topic title:string description:text-&gt;rake db:migrate (This tells Rails to update the database to include a table for our new model.)</p>
+<p>rake (ruby make) is a tool that allows you to run small programs that you use often in your application. </p>
+<p>MVC:</p>
+<p>Model: 1) For all the Models we create in RailsBridge, Model objects have a corresponding record in the database . <strong>the name of the table in the database is the plural version of the Model’s class name. for example Pig-&gt;pigs</strong>, The Model is a bridge between the database and your application’s code.</p>
+<p>View: 1) The view generates the HTML that will be displayed in the browser. 2) View files are written in ERB, a templating language. It contains HTML with Ruby code embedded in it. </p>
+<p>Controller: 1) Controllers pass Ruby objects between the Models and the Views. 2) Each url corresponds to a specific method in a Controller. 2) After this step, when your visit any page in your application, that request will be handled by a method in a controller.</p>
+<p>设置首页：在config/routes.rb-&gt;添加这句：root ‘topics#index’ 。Rails routes control how URLs (web addresses) get matched with code on the server. Similar to how addresses match with houses and apartments.</p>
+<p>Deploy to Heroku: heroku create-&gt;Edit the Gemfile-&gt;bundle install –without production (apply the Gemfile changes)-&gt; git add . git commit -m “changed Gemfile for Heroku”-&gt; git status -&gt; git push heroku master-&gt;heroku run rake db:migrate-&gt;heroku open</p>
+<p>create Model: rails generate model vote topic_id:integer-&gt;rake db:migrate</p>
+<p>has_many and belongs_to:</p>
+<ul>
+<li>In Rails, relationships between models are called associations. </li>
+</ul>
+<ul>
+<li>Associations (usually) come in pairs.</li>
+</ul>
+<ul>
+<li>A topic will have many votes so we put has_many :votes in the topic model.: When you ask a topic for its votes, you get an array of votes for that topic.</li>
+<li>A vote is for a particular topic, so we put belongs_to :topic in the vote model.: When you ask a vote for its topic, you get the topic for that vote.</li>
+</ul>
+<p>It can still be important to clean up after yourself! dependent: :destroy on has_many :votes means when a Topic gets destroyed, all the votes that correspond to it will be destroyed, too. Without dependent :destroy, those votes would live on the database forever.</p>
+<h2 id="错误总结"><a href="#错误总结" class="headerlink" title="错误总结"></a>错误总结</h2><p>错误1： 不知道怎么heroku create，原来是自己压根就没有装heroku，就安装和注册后登录进去可以创建。上传到heroku，要修改gemfile。</p>
+<p>错误2：在执行rails generate scaffold topic title:string description:text中遇到停住，重启电脑后可用。</p>
+<p>错误3：当把application部署到heroku后，忘记被Gemfile里面的内容修改回来，导致后面本地执行不了。</p>
+<p>错误4：git commit -m “added。。。”，这个-m之后的一定要加吗？文档描述可不用加，可是没加的时候出现卡住。加了就没这个问题？</p>
+<h2 id="背诵"><a href="#背诵" class="headerlink" title="背诵"></a>背诵</h2><p>remove app: rm -rf filename</p>
+<p>create a new rails: rails new appname</p>
+<p>While create a new Rails project, will be a lot directories and files including:</p>
+<p>app/: Contains the controllers, models, and views for your application. You will do most of your work here.</p>
+<p>config/: Configure your application’s runtime rules, routes, database, and more.</p>
+<p>db/: Show yours current databased schema, as well as the databased migrations.</p>
+<p>public/: The only folder seen to the world as-is. If you put files in here, they will be served directly without any processing by Rails.</p>
+<p>app/assets/: This is where your images, Javascript, stylesheets and other static files should go. Modern Rails apps use something called the Assets Pipeline, which combines all the Javascript and CSS files in this directory into a single file for speediness.</p>
+<p>rails server</p>
+<p>rake -T: see a lit of all the rake commands your app currently respond to, along with a short description of each task.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/06/Rails/" itemprop="url">
+                  Rails
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-06T00:50:31+08:00" content="2016-11-06">
+              2016-11-06
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/06/Rails/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/06/Rails/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/16/如何高品质地形成观点-1/" itemprop="url">
                   如何高品质地形成观点
                 </a>
               
@@ -311,8 +580,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/10/16/如何高品质地形成观点/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/10/16/如何高品质地形成观点/" itemprop="commentsCount"></span>
+                <a href="/2016/10/16/如何高品质地形成观点-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/10/16/如何高品质地形成观点-1/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -1539,327 +1808,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/28/《通往财富自由之路》学习笔记-5/" itemprop="url">
-                  《通往财富自由之路》学习笔记(5)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-28T23:30:52+08:00" content="2016-08-28">
-              2016-08-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/财富自由/" itemprop="url" rel="index">
-                    <span itemprop="name">财富自由</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/28/《通往财富自由之路》学习笔记-5/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/28/《通往财富自由之路》学习笔记-5/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="“活在当下”-VS-“活在未来”"><a href="#“活在当下”-VS-“活在未来”" class="headerlink" title="“活在当下” VS “活在未来”"></a>“活在当下” VS “活在未来”</h1><p>如何做?</p>
-<blockquote>
-<p>对未来有个预测；</p>
-<p>那个预测需要时间才能得到结果；</p>
-<p>你笃信你的预测是正确的；</p>
-<p>于是你提前按照那个预测的结果行动、选择、思考；</p>
-<p>你终将走到那个结果出现的时刻；</p>
-<p>最终证明你的预测是正确的；</p>
-<p>那么，由于你提前按为了正确的结果行动、选择、思考，于是，在相当长一段时间里，你的生活中的一部分，就是“活在未来”。</p>
-</blockquote>
-<p><strong>认真思考：</strong><br>我的思考：</p>
-<blockquote>
-<p>你曾经做出过的最重要的正确预测是什么？为什么它那么重要？</p>
-</blockquote>
-<p>我觉得我自己做过的最重要的正确预测或者说我笃信的是读书和写作肯定可以改变我的人生。那是四年前的时候，当初我就这样告诉自己：要写作，要读书，我买了很多书。</p>
-<p>可是，你知道吗？从那个时候开始吧，有好几年时间我却几乎把所有的时间都放在工作上。到了去年8月份，我突然发现公司的事情永远都做不完，那就按照正常来操作开始好了，最多偶尔加班一下。从那个时候开始，我才开始读书。</p>
-<p>为什么重要？有了读书的行动才有幸认识了笑来老师（应该是认识了笑来老师的公众号“学习学习再学习”），认识了笑来老师之后，就有幸加入到了新生大学。于是开始真正的行动上的洗脑，真正行动起来给自己的大脑进行操作系统升级。</p>
-<blockquote>
-<p>你做出过的最大的、而自己却最终并没有因此获益的预测是什么？为什么它是最大的，又，为什么你并没有因此获益？</p>
-</blockquote>
-<p>大学本科毕业的时候，我预测我做程序的话很难做到顶尖水平。于是，我开始试着逃离当程序员。</p>
-<p>我的预测是错误的，而这个预测足以影响我一生。现在回头来看的话，其实我之所以会做出不当程序员的选择，归结起来，是由于以下原因造成的：1. 首先，逻辑思维水平有限，到毕业的时候编程水平很一般，跟周围很牛逼的同学比起来，就觉得自己在编程方面怎么好像差了一大截（看，又进行了不合理比较导致自己丧失信心）；2. 英文水平很烂，尽管我一次性考试通过四六级，但是看技术文档依然迷迷糊糊；3）我在去公司实习的过程中，没有遇到好的合作伙伴和导师给我做指点。导致了我失去信心。</p>
-<p>很多年以后，当我已经研究生毕业出来工作了好多年，我主要做跟英语及技术都相关的销售，我算是没有脱离编程相关的，我回头再去看编程，特别是看了笑来老师的《人人都是工程师》后，感觉多年以前的自己好蠢，认识不到有些东西即使是真的“不喜欢”也是必须学好，做好的。况且自己也不是太笨，怎么说也是拿了保研名额的人啊。但在编程这件事情上我确实太笨。</p>
-<p>当然，从另外一个角度来分析，我又觉得自己是幸运的，假如没有当初“不喜欢编程”而花了将近一年去好好学习背诵英语，我可能现在看文档还是水平很差，那即使我当了程序员，又能怎样呢？至少现在的我走在正确的路上了……真的很庆幸认识了笑来老师，虽然他不一定认识我哈哈。</p>
-<blockquote>
-<p>在过去的十年甚至二十年里，你也知道“知识就是力量”，“知识就是金钱”，可为什么你实际上并没有重视这个道理？哪儿出了问题？</p>
-</blockquote>
-<p>我想，没有样板案例我在我身边以及受周围人影响是最大的原因。</p>
-<p>所谓“物以类聚，人以群分”我也很早就懂，但是就是自己够笨，没有特别去注意和思考。到头来发现我的“群”太次，甚至觉得自己不属于“任何群”，因为周围优秀的人不够多，交流也不够多。归根结底还是自己思考水平有限。</p>
-<p>从小学时候开始，我从小学开始，就知道“知识就是力量”，可是二十年过去了，我竟然到了最近才深深地体会到知识就是力量。我想，从2000年以后，高校扩招，大学生越来越多了，好像随便考都可以读大学，从那个时候开始，好像就开始流行起读书无用论，很多人读完大学都找不到工作。再加上有一些读书很厉害的人，读书成绩好到都是大家羡慕的对象，到了大学毕业的时候也找不到工作。而对比有一小部分读书不好的，中途退学的，做生意却赚了不少钱。在很多人的心理，就把那些读书好却找不到工作的人，拿来跟中途退学的人去做生意最终暴富了的人去比较。导致了整个社会的人变得很浮躁，觉得读那么多年的书，都还不如没读书的。我们或许都或多或少受到这个影响。特别是不懂得思考的人，就更甚了。具体分析起来，其实是犯了笑来老师说过的不合理比较的毛病：拿读书好混得最差的去跟读书差混得最好的去比较。</p>
-<p>总结起来，就是我思考的不够。</p>
-<p>我已经开始在行动了，我最近开始了频繁写作，我开始开通了一个微信公众号，叫“学习思考再思考”，准备把一些思考学下来放到这个公众号里面。</p>
-<blockquote>
-<p>每天花三十分钟时间，预测一下明天，下一周可能发生的事情；有哪些是你能想到了但你身边大多数人估计想不到的？</p>
-</blockquote>
-<p>明天，会发生什么事情呢？下周会发生什么事情呢？发现这么短的时间我竟然预测不出来?写文章和读后感，买域名实践写博客。似乎是计划做事情，而不是预测，没什么意义啊？</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/21/《通往财富自由之路》学习笔记-4/" itemprop="url">
-                  《通往财富自由之路》学习笔记(4)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-21T14:05:45+08:00" content="2016-08-21">
-              2016-08-21
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/财富自由/" itemprop="url" rel="index">
-                    <span itemprop="name">财富自由</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/21/《通往财富自由之路》学习笔记-4/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/21/《通往财富自由之路》学习笔记-4/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="我人生最重要的枷锁"><a href="#我人生最重要的枷锁" class="headerlink" title="我人生最重要的枷锁"></a>我人生最重要的枷锁</h1><p><strong>大多数人是这样的人：时时刻刻关注身边所有可以被关注的东西，而且非常害怕竟然有被自己漏掉的。等于被困在永恒的当下。 </strong></p>
-<p>我惊讶地发现：我也不例外。开启学习旅程。</p>
-<blockquote>
-<p>几乎所有的进步都是放弃了部分安全感才可能获得的。</p>
-<blockquote>
-<p>追求百分之百的安全感，肯定会把自己困在永恒的当下。</p>
-<p>我们必须放弃一部分安全感，才能深入长期地观察、思考。放弃的部分安全感通过与他人合作，即有效社交来补全。</p>
-</blockquote>
-</blockquote>
-<p><strong>合作与信任的本质</strong></p>
-<blockquote>
-<blockquote>
-<p>合作是什么？合作的本质其实是大家各自放弃一小部分安全感，并把那一部分安全感交由合作方来保障。</p>
-<p>信任是什么？信任是相信对方不会利用自己主动放弃的那一部分安全感。</p>
-</blockquote>
-</blockquote>
-<p><strong>什么是缺乏安全感？</strong></p>
-<blockquote>
-<p>所谓的缺乏安全感，就是不相信他人竟然可以不利用自己放弃的那一部分安全感，所以只能自己去搞定百分之百的安全。</p>
-</blockquote>
-<p>永远不要与缺乏安全感的人合作，因为他们的世界里，实际上不可能有真正的合作。</p>
-<p><strong>我的思考：</strong></p>
-<p><strong>Push notification对我的影响</strong> ：原来我也没有安全感：我现在每天影响我最大的大概是微信，庆幸的是，朋友圈我基本上不看了，我一开始想，唯一影响我比较大的是经常会翻出手机来看看加入的一些微信群有没有消息。这个真的是浪费我注意力啊。正当我觉得自己很庆幸自己好像还不是特别没有安全感的时候，我翻到了我关注的公众号，我惊呆了，我关注的公众号好多啊，回想起来，每关注一个公众号，我都会告诉自己，里面的知识我获取有一天会用到，有一天我会看。可是可是，几个月甚至几年过去了，我发现90%以上的公众号我都没怎么看，有也只是最初看几次。只有一些我特别关注的如新生大学、学习学习再学习我会定期去看，我竟然让它们在那里占用我的注意力，之所以这么说，因为订阅了太多，要找自己想看的公众号往往要下拉好几次才会找到。我的天啊，原来我也这么没安全感。</p>
-<p>接下来我做了一个事情：我把基本不看的公众号取消了，存活着的在十个以内。我把iPhone上很大一部分短信设置为勿扰模式。过了几天，感觉整个人都放松下来了，真奇妙的感觉。让那些没有用的信息见鬼去吧。</p>
-<p><strong>我身边貌似能力很强的人不得志的分析</strong>：在我人生的每一个阶段，都会有一些牛人，有些是学习成绩很好，遥遥领先于我，有些是口才很好，也遥遥领先于我。当初的我觉得他们肯定会成功。可是，随着我们都进入而立之年，我竟然发现他们有大一部分人还是很挣扎着，很不得志。我试着分析了一下：是啊，他们放不下，他们追求着100%的安全感。正是因为这个100%的安全感，让他们逃脱不出那100%的束缚。比如，有的放不下体制内的工作，有的顺从父母的意愿在选择工作，有的工作后就不追求进步的。有些朋友竟然因为顺从父母后导致工作不顺而精神变得不正常，想想真的是件很可悲和可惜的事情。而我跟他们不一样的地方在于：我始终都根据自己的意思在生活着，始终在进步着。</p>
-<p>从小到大，我都是很自立，父母亲给了我足够的自由，最主要的原因其实是由于我父母亲本身没什么文化水平，也不懂怎么帮我做决定，即使要帮我忙也不知道该怎么帮。我记得刚读小学开学的时候，我周围的人去领课本，都是父母带着过去的，而我，基本都是一个人去的。从小学到初中，都是我一个人自己去交学费上学，唯一一次有老爸跟我一起去的是上高一的时候，因为路途比较遥远，我老爸竟然破天荒的跟我一起去入学。到了上大学的时候，还是我一个人屁颠屁颠的拿着行李直奔里我家400多公里的福州。因为这事，我以前还埋怨过我的父母亲。等我长大后，现在回想起来，我觉得自己是个多么幸运的人啊，感谢父母亲一直“放着”让我自由成长。</p>
-<p>备注：<strong>不要与缺乏安全感的人合作……因为他们的世界里，实际上不可能有真正的合作关系。</strong> <strong>冒险本身并不是追求成功的好方式，获取财富的诀窍之一就是不冒险。</strong></p>
-<blockquote>
-<p><strong>永远不要嘲笑别人。</strong></p>
-</blockquote>
-<p>永永远远不要嘲笑别人，把嘲笑这个想法完全从自己的大脑系统里剔除。</p>
-<blockquote>
-<p><strong>不要在意别人的眼光</strong> </p>
-<p>在意别人眼光的人，实际上是没有想清楚下面两件事情的重要等级：<strong>别人眼中的“好形象”带来的满足感。VS 自身进步带来的满足感。</strong></p>
-</blockquote>
-<p>活着，最在意的应该是自己的进步。</p>
-<p><strong>想要改变过度在乎别人眼光的方法，并不是一味地回避这件事，而是要让自己切身体会到进步带来的快感。</strong></p>
-<p>好经典的说法啊：</p>
-<blockquote>
-<p>有个对朋友圈的总结，还是挺到位的：</p>
-<p>在朋友圈里，每个人都过得比我好！</p>
-<p>电影之所以精彩，就是因为它将几天、几个月、甚至几年的故事浓缩到两个小时给你看，想不精彩都困难。朋友圈之所以精彩，也是因为一个人把自己一天或者几天里最光鲜的一个瞬间展现给你，才让你觉得只有自己是无趣平凡的。</p>
-</blockquote>
-<p><strong>谈读书</strong></p>
-<blockquote>
-<p>一年哪怕只读一本书，也要让这本书的内容结结实实地提升自己的生活，而不是只为了多一点谈资或者阅读清单上多一个书目。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1905,7 +1853,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">29</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1913,7 +1861,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
