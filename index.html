@@ -339,7 +339,64 @@
           
             <p>写的这篇Intro to Rails入门详解，希望能对刚入门的人有点借鉴意义，也欢迎随时跟我交流，谢谢。</p>
 <p>Table of Content</p>
-<p>[TOC]</p>
+<p>学习目标</p>
+<p>实践</p>
+<p>Step 1: 在Macbook上建一个应用程序（Application）</p>
+<p>Step 2：把项目加进git 数据仓库(Repo)</p>
+<p>Step 3：本地执行本项目</p>
+<p>Step 4：创建一个Migration</p>
+<pre><code>4.1 知识点解释
+
+    知识点一：migration &amp; rake
+
+    知识点二：scaffolding
+</code></pre><p>Step 5：使用scaffolding进行CRUD</p>
+<pre><code>5. 1知识点解释
+
+    知识点一：@topics
+
+    知识点二：edit_topic_path(topic) &amp; new_topic_path
+
+5.2 知识点解释
+
+    知识点一：@topic从哪来？
+
+    知识点二：edit_topic_path(@topic)
+
+    知识点三：topics_path
+
+5.3 知识点解释
+
+    知识点一：render &apos;form&apos;, topic: @topic
+
+5.4 知识点解释
+</code></pre><p>​        知识点一：form_for</p>
+<pre><code>5.5 进一步研究
+
+5.6 余留问题
+</code></pre><p>Step 6：设置默认页面</p>
+<p>Step 7：对文章做投票</p>
+<p>Step 8：把votes和topics连在一起</p>
+<pre><code>8.1 知识点解释
+
+    知识点一： has_many :votes, dependent: :destroy
+</code></pre><p>Step 9：让我们可以投票</p>
+<pre><code>9.1 知识点解释
+
+    知识点一：upvote方法
+
+9.2 知识点解释
+
+    知识点一：member do post &apos;upvote&apos;
+
+9.3 知识点解释
+
+    知识点一：pluralize(topic.votes.count, &quot;vote&quot;)
+
+    知识点二：button_to &apos;+1&apos;, upvote_topic_path(topic), method: :post
+
+    知识点三：method: :post
+</code></pre><p>参考资料</p>
 <h1 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h1><ol>
 <li>以intro to rails为素材，学习Intro to Rails，实现全栈工程师之路的入门</li>
 <li>完全理解程序中的每个环节，刨根究底地寻找资源了解细节，达到完全掌握的目的</li>
