@@ -267,6 +267,185 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/28/Rails-的-CRUD-与-RESTful/" itemprop="url">
+                  Rails 的 CRUD 与 RESTful
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-28T23:33:56+08:00" content="2016-11-28">
+              2016-11-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/全栈工程师/" itemprop="url" rel="index">
+                    <span itemprop="name">全栈工程师</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/28/Rails-的-CRUD-与-RESTful/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/28/Rails-的-CRUD-与-RESTful/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>HTTP 请求( Request）与 HTTP 动词 ( Verb）</p>
+<p>一般网页的运作原理是这样的：</p>
+<ol>
+<li>使用者在浏览器输入了某个网址，点击了某个连结。这都叫发出 HTTP 请求 ( Request）。</li>
+<li>而浏览器回应之后：产生页面，或者是重新导向。这都叫 HTTP 回应（ Response）。</li>
+</ol>
+<p>一般来说，使用者最常使用的是两种类型 / 动作 ( Verb )的请求： GET 与 POST。</p>
+<ul>
+<li>GET ：输入网址，点击某些网址。这都是 GET。</li>
+<li>POST：送出表单。这叫做 POST</li>
+</ul>
+<p>RESTful 的基础概念</p>
+<p>因为 CRUD 是常见的操作行为，但是大家实作的方式、与网址设计方式不一样。造成很多维护上的困扰。</p>
+<p>后来就有人发明 RESTful 这个概念，希望用 HTTP 的动作 ( Verb）一起去封装 CRUD 的行为。所以又多加了两个动作：</p>
+<ul>
+<li>PUT : 更新 ( update )</li>
+<li>DELETE : 删除 ( delete）</li>
+</ul>
+<p>而 Rails 的 Routing 也是依循这样的理念去设计。</p>
+<p>Rails 的基础 RESTful概念</p>
+<p>由于RESTful是个新手不容易一下子理解的概念，号称学 Ruby on Rails 初期最大障碍。</p>
+<p>在本篇尽量用浅显易懂的方式解释。如果看不懂也没关系，用背的！！</p>
+<p>一定要背起来！</p>
+<p>以下例子以 第三章， 做出 CRUD 功能的讨论版来解释：</p>
+<ul>
+<li>讨论版这个功能的名称： groups。Restful 的概念里面叫做 resources，“一组资源”。</li>
+</ul>
+<p>为了要控制它的运作，我们会创建一个新的 Controller档案 叫做 groups_controller.rb</p>
+<p>HTTP Verb 有四种：</p>
+<ul>
+<li>新增 (create，使用 POST )</li>
+<li>读取 (read，使用 GET )</li>
+<li>更新 (update，使用 PUT )</li>
+<li>删除 (destroy，使用 DELETE)</li>
+</ul>
+<p>在这组 controller 当中，我们会实作 7 个 Action ，4 张页面。</p>
+<ul>
+<li>首页( index )：用来列出所有的讨论版，可以选择各个单版 （使用 GET )</li>
+<li>各个讨论版专属页面(show)：显示讨论版版名跟简介 (使用 GET )</li>
+<li>新增页面(new)：里面会有表单，填完以后可以送出 (使用 GET )</li>
+<li>产生资料（create) ：new 送出来的表单到 create 这个 action，新增一笔资料 ( 使用 POST )</li>
+<li>修改页面(edit)：里面会有表单呈现现有资料来，填完资料后可以送出 (使用 GET )</li>
+<li>更新资料（update)：edit 送出来的表单可以到 update 这个 action，更新该笔资料 (使用 PUT )</li>
+<li>删除资料：送出删除请求，删除该笔资料（使用 DELETE）</li>
+</ul>
+<p>这七个 action ，是每个CRUD功能里最基本的动作。只要我们在 controller.rb 里定义 (def) 好这七个方法当作动作 (action)。其他的部分 Rails 就会帮我们处理了。</p>
+<p>像是设定 Routing (路由) 只需要简单一行:</p>
+<p>config/routes.rb</p>
+<p>  resources :groups</p>
+<p>​    </p>
+<p>这样不管浏览器端跑来什么样的请求 (request) ，Routing都会聪明地帮我们导向正确的 action 去运作后续流程。</p>
+<p>网址对应关系</p>
+<p>对于网址跟对应的Action与页面来说</p>
+<ul>
+<li>/groups/ 一定就是 index，首页，对应Routes路径： groups_path</li>
+<li>/groups/123 一定就是 show，名字为123的讨论版个版页面，对应Routes路径： group_path(123)</li>
+<li>/groups/123/edit 一定就是 edit，修改讨论版123的表单页面，对应Routes路径：edit_group_path(123)</li>
+<li>/groups/new 一定就是 new，新增讨论版的表单页面，对应Routes路径(或称为helper)：new_group_path 总结</li>
+</ul>
+<p>所以制作一个 RESTful 风格的讨论版，我们仅需在Routes设定一行程式即可</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/27/Intro-to-Rails-Rails-入门详解/" itemprop="url">
                   Intro to Rails-Rails 入门详解
                 </a>
@@ -1971,162 +2150,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/15/我真的很在意自己的进步/" itemprop="url">
-                  我真的很在意自己的进步
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-15T01:02:12+08:00" content="2016-09-15">
-              2016-09-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/个人成长/" itemprop="url" rel="index">
-                    <span itemprop="name">个人成长</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/09/15/我真的很在意自己的进步/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/15/我真的很在意自己的进步/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>首先，来搞清楚一下我认为的进步的概念。</p>
-<blockquote>
-<p>所谓的进步，就是我跟以前的自己比较起来，在某些方面更强了。</p>
-</blockquote>
-<p>而所谓的每天都在进步，其实是非常非常可怕的，假如能做到每天进步，那么这个进步就像是李笑来在《七年就是一辈子》里<a href="https://b.xinshengdaxue.com/A01.html" target="_blank" rel="external">复利：我们的人生希望</a>所描述的复利的道理一样，只要每天进步一点点，随着时间的推移，进步将是非常可怕的。进步曲线可是会这样的哦……</p>
-<p><img src="https://b.xinshengdaxue.com/images/compound-rate-curve.jpg" alt=""></p>
-<p>过去的几年，我也知道进步很重要，也都是很认真的学习工作生活。在工作上甚至我要求我的下属每周每个月的工作报告中要添加一栏“自己的成长”，可见我自己有多重视。可是这么多年过去了，我发现我的进步还是不够明显。我试着去分析了原因，得出如下结论：</p>
-<blockquote>
-<p>首先，对一些事情上，我常常半途而废，坚持不够久……</p>
-</blockquote>
-<p>比如在背英语单词上，我做不到坚持背过的单词过一段时间进行复习，以至于单词量现在还是非常有限。要知道，一件事情假如做不到一直坚持做的话，就很难做得足够好。德国心理学家赫尔曼·艾宾浩斯研究结果表明：人类输入的信息在经过人的注意过程的学习后，便成为了人的短时的记忆，但是如果不经过及时的复习，这些记住过的东西就会遗忘，而经过了及时的复习，这些短时的记忆就会成为了人的一种长时的记忆，从而在大脑中保持着很长的时间。这个就是著名的<a href="https://en.wikipedia.org/wiki/Forgetting_curve" target="_blank" rel="external">遗忘曲线</a>，这个道理足够解释我这么多年一些事情上进步不明显的原因。</p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/ForgettingCurve.svg/277px-ForgettingCurve.svg.png" alt=""></p>
-<blockquote>
-<p>其次，我没有养成天天写作，及时总结的习惯。</p>
-</blockquote>
-<p>很多年以前，我就告诉自己，要读书，要学会写作，写作会改变我的生活，改变我的思维方式，甚至改变我的命运。多年以前我有幸得到思科前中国区总裁林正刚亲笔签名的一本书，叫《正能量-职业经理人的养成》，第四章里面有一节专门讲感兴趣的书要立刻买，我也因此买了很多书藏着在家里。可是那几年中，我花在读书上的时间确实非常有限的（那几年我把几乎所有的时间都给了工作）。也好多次尝试着提起键盘开始敲字，可是，这么多年过去了，直到去年为止，我都没写出几篇文章。从去年的这个时候开始（我写下这个文字的时间是2016年9月14日），我开始有点后知后觉，觉得这样下去不行，自己的成长速度好慢，于是，从那个时候开始，我开始看书，开始写读后感，可是，到现在为止，一年过去了，我发现，总共我写的文章和读后感，累加起来也不过是20多篇，质量也参差不齐（大部分质量都还很烂）。</p>
-<p>最近，在反复听笑来老师的讲课中，我认认真真地反思了自己，反思，深刻地认识到自己再这样下去，不知道再过多年，自己会还是什么样的自己。于是我开始在半欢喜和半焦虑中度过。也许这样的感觉才是对的。</p>
-<p>下面是我反思的结果，为了进步，我需要做出哪些改变呢？总结起来就简单的一句话。</p>
-<blockquote>
-<p>我需要每天都写总结，写作……</p>
-</blockquote>
-<p>每天都要进入深度思考模式，就像我的微信公众号名字一样”学习思考再思考“一样，要不断地总结每天的进步。具体在行动上需要做到怎样呢？</p>
-<blockquote>
-<ol>
-<li>记录自己每天做过的事情，记录自己的行动。</li>
-</ol>
-</blockquote>
-<p>按照李笑来在《把时间当作朋友》（第三版）第三章第7节第8节记录开销和制订预算来做就够用。</p>
-<blockquote>
-<ol>
-<li>写作：多写多写多写。</li>
-</ol>
-</blockquote>
-<p>拿起键盘开始写，每天都要写，能写多少算多少，相信多年以后，我会感谢我这样的自己。</p>
-<p>就这么简单，不过要知道<strong>行动起来才是最重要的</strong>。</p>
-<p>我答应了李笑来老师，我是他的脑残粉，我要帮他一个忙，也许对你有帮助哦！</p>
-<p><img src="http://ww4.sinaimg.cn/mw690/006gNvXEgw1f7aff0zkyoj30ku0vrgnu.jpg" alt=""></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2172,7 +2195,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-count">30</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

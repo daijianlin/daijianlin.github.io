@@ -84,34 +84,40 @@
 
 
 
-<meta name="description" content="我们为什么要读书？
+<meta name="description" content="HTTP 请求( Request）与 HTTP 动词 ( Verb）
+一般网页的运作原理是这样的：
 
-改变生活。
+使用者在浏览器输入了某个网址，点击了某个连结。这都叫发出 HTTP 请求 ( Request）。
+而浏览器回应之后：产生页面，或者是重新导向。这都叫 HTTP 回应（ Response）。
 
-这是我听过的最朴素的回答。
-读书无用论流行了很长时间了，大概从2000年左右高考开始扩招开始，就一直在流行着读书无用论—因为很多人读了大学毕业后找不到工作，甚至有些高考考上名牌大学后毕业后竟然找不到工作，只好回到家里呆着。
-可是，很多人（包括以前的我）其实没有深层次地去分析原因。我给出的答案是：上学读的书没有用起来，当然无用了。读的书没有用起来，会起作用，那天理">
+一般来说，使用者最常使用的是两种类型 / 动作 ( Verb )的请求： GET 与 POST。
+
+GET">
 <meta property="og:type" content="article">
-<meta property="og:title" content="我的精读实践初心得">
-<meta property="og:url" content="http://yoursite.com/2016/10/04/我的精读实践初心得/index.html">
+<meta property="og:title" content="Rails 的 CRUD 与 RESTful">
+<meta property="og:url" content="http://yoursite.com/2016/11/28/Rails-的-CRUD-与-RESTful/index.html">
 <meta property="og:site_name" content="戴建林">
-<meta property="og:description" content="我们为什么要读书？
+<meta property="og:description" content="HTTP 请求( Request）与 HTTP 动词 ( Verb）
+一般网页的运作原理是这样的：
 
-改变生活。
+使用者在浏览器输入了某个网址，点击了某个连结。这都叫发出 HTTP 请求 ( Request）。
+而浏览器回应之后：产生页面，或者是重新导向。这都叫 HTTP 回应（ Response）。
 
-这是我听过的最朴素的回答。
-读书无用论流行了很长时间了，大概从2000年左右高考开始扩招开始，就一直在流行着读书无用论—因为很多人读了大学毕业后找不到工作，甚至有些高考考上名牌大学后毕业后竟然找不到工作，只好回到家里呆着。
-可是，很多人（包括以前的我）其实没有深层次地去分析原因。我给出的答案是：上学读的书没有用起来，当然无用了。读的书没有用起来，会起作用，那天理">
-<meta property="og:updated_time" content="2016-10-04T15:46:25.000Z">
+一般来说，使用者最常使用的是两种类型 / 动作 ( Verb )的请求： GET 与 POST。
+
+GET">
+<meta property="og:updated_time" content="2016-11-28T15:36:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我的精读实践初心得">
-<meta name="twitter:description" content="我们为什么要读书？
+<meta name="twitter:title" content="Rails 的 CRUD 与 RESTful">
+<meta name="twitter:description" content="HTTP 请求( Request）与 HTTP 动词 ( Verb）
+一般网页的运作原理是这样的：
 
-改变生活。
+使用者在浏览器输入了某个网址，点击了某个连结。这都叫发出 HTTP 请求 ( Request）。
+而浏览器回应之后：产生页面，或者是重新导向。这都叫 HTTP 回应（ Response）。
 
-这是我听过的最朴素的回答。
-读书无用论流行了很长时间了，大概从2000年左右高考开始扩招开始，就一直在流行着读书无用论—因为很多人读了大学毕业后找不到工作，甚至有些高考考上名牌大学后毕业后竟然找不到工作，只好回到家里呆着。
-可是，很多人（包括以前的我）其实没有深层次地去分析原因。我给出的答案是：上学读的书没有用起来，当然无用了。读的书没有用起来，会起作用，那天理">
+一般来说，使用者最常使用的是两种类型 / 动作 ( Verb )的请求： GET 与 POST。
+
+GET">
 
 
 
@@ -132,9 +138,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/10/04/我的精读实践初心得/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/11/28/Rails-的-CRUD-与-RESTful/"/>
 
-  <title> 我的精读实践初心得 | 戴建林 </title>
+  <title> Rails 的 CRUD 与 RESTful | 戴建林 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -283,7 +289,7 @@
             
             
               
-                我的精读实践初心得
+                Rails 的 CRUD 与 RESTful
               
             
           </h1>
@@ -295,8 +301,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-04T23:38:53+08:00" content="2016-10-04">
-              2016-10-04
+            <time itemprop="dateCreated" datetime="2016-11-28T23:33:56+08:00" content="2016-11-28">
+              2016-11-28
             </time>
           </span>
 
@@ -309,8 +315,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/个人成长/" itemprop="url" rel="index">
-                    <span itemprop="name">个人成长</span>
+                  <a href="/categories/全栈工程师/" itemprop="url" rel="index">
+                    <span itemprop="name">全栈工程师</span>
                   </a>
                 </span>
 
@@ -325,8 +331,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/10/04/我的精读实践初心得/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/10/04/我的精读实践初心得/" itemprop="commentsCount"></span>
+                <a href="/2016/11/28/Rails-的-CRUD-与-RESTful/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/28/Rails-的-CRUD-与-RESTful/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -349,32 +355,66 @@
       
 
       
-        <p>我们为什么要读书？</p>
-<blockquote>
-<p>改变生活。</p>
-</blockquote>
-<p>这是我听过的最朴素的回答。</p>
-<p>读书无用论流行了很长时间了，大概从2000年左右高考开始扩招开始，就一直在流行着读书无用论—因为很多人读了大学毕业后找不到工作，甚至有些高考考上名牌大学后毕业后竟然找不到工作，只好回到家里呆着。</p>
-<p>可是，很多人（包括以前的我）其实没有深层次地去分析原因。我给出的答案是：上学读的书没有用起来，当然无用了。读的书没有用起来，会起作用，那天理何在啊？</p>
-<p>在我骨子里，我其实是从小就坚信读书会有用的人（那是即使我真不知道会有什么用，我却依然坚信）。假如没有这份坚信，也不会有这篇文章。</p>
-<p>我们先从最简单的怎样读书开始说起。</p>
-<p>毫无夸张地讲，很多人这辈子被害得最惨的之一是快速阅读。我也不例外，这个快速阅读的概念犹如魔鬼一样的跟随着我，让我深受其害，我想这也是我们教育失败的原因之一吧，在我们上学的时候，很多错误的理念一直伴随着我们，被这些错误的理念毒害的时候，没有人给我们指导。本质的原因可能是中国的老师整体水平实在是次。</p>
-<p>直到有一天，我看到了李笑来老师的《人人都能用英语》里面提到：阅读只有一种—精读。我才恍然大悟。里面提到，好书，应该要这样读：</p>
-<blockquote>
+        <p>HTTP 请求( Request）与 HTTP 动词 ( Verb）</p>
+<p>一般网页的运作原理是这样的：</p>
+<ol>
+<li>使用者在浏览器输入了某个网址，点击了某个连结。这都叫发出 HTTP 请求 ( Request）。</li>
+<li>而浏览器回应之后：产生页面，或者是重新导向。这都叫 HTTP 回应（ Response）。</li>
+</ol>
+<p>一般来说，使用者最常使用的是两种类型 / 动作 ( Verb )的请求： GET 与 POST。</p>
 <ul>
-<li>挣扎着搞清楚每一句话的确切含义。运用一切可以运用的手段— 查词典，查语法书，甚至去查google。</li>
-<li>理解每句话之间、每个段落之间的关系。处理段落有另外一个任务— 概括。</li>
-<li>整理词汇。要知道，读完一篇文章之后，自己动手整理词汇，远比背单词书效率高出许多— 可惜，大多数人并不相信。</li>
-<li>反复阅读若干遍。读着读着就可能发现很多第一次读并没有注意到的东西。</li>
-<li>复述文章。能够书面或者口头复述刚刚度过的文章，实际上需要很多综合能力：记忆力、逻辑能力、转述能力、重新组织能力、再理解能力等等。</li>
-<li>养成若干天后复习的习惯。</li>
+<li>GET ：输入网址，点击某些网址。这都是 GET。</li>
+<li>POST：送出表单。这叫做 POST</li>
 </ul>
-</blockquote>
-<p>你要知道，即使看到这么朴素的读书方法，大部分人其实只是想一想而已，不会真正实践的，想完了后第二天读书的时候还是没按照上面的方法来。我就是这样的人。</p>
-<p>我在几个月前就看到了这本书，在看这本书的时候，也重点地把以上这部分内容圈起来。可是，过几天我就完全忘记了……</p>
-<p>直到有一天，我听了笑来老师的演讲—讲他是如何读书的，里面提到他写的这篇文章，我才再次被触动，再次翻开这篇文章，这次，触动我心灵的其实是，假如我再这样下去，下辈子（七年就是一辈子）我可能还是个原始人，于是，我行动了起来……</p>
-<p>行动了后，才知道自己是多么的无知，之前读书，很多细节都是一知半解自己却为了追求速度而放过，遇到不懂的甚至因为嫌麻烦，就不动手去查资料。举个例子，有时候，我看到书的内容（我说的是英文原版书哦，因为最近都看英文原版书籍），我每句话都读懂了，但是没有深度思考，看了这句，忘记了上一句，看书变成了只是过场，大脑没有留下任何记忆。更别提可以把学到的在生活学习中用起来了。有时候甚至是大脑的“思路”没有跟上眼睛的“思路”。怎么办呢？怎么办呢？有没有解决办法？解决办法就是按照笑来老师说的方法，一字不落地记住上面的话，跟着去实践。</p>
-<p>在读书这条路上，要真正达到改善生活，是需要时间来发酵的。让我们拭目以待吧……</p>
+<p>RESTful 的基础概念</p>
+<p>因为 CRUD 是常见的操作行为，但是大家实作的方式、与网址设计方式不一样。造成很多维护上的困扰。</p>
+<p>后来就有人发明 RESTful 这个概念，希望用 HTTP 的动作 ( Verb）一起去封装 CRUD 的行为。所以又多加了两个动作：</p>
+<ul>
+<li>PUT : 更新 ( update )</li>
+<li>DELETE : 删除 ( delete）</li>
+</ul>
+<p>而 Rails 的 Routing 也是依循这样的理念去设计。</p>
+<p>Rails 的基础 RESTful概念</p>
+<p>由于RESTful是个新手不容易一下子理解的概念，号称学 Ruby on Rails 初期最大障碍。</p>
+<p>在本篇尽量用浅显易懂的方式解释。如果看不懂也没关系，用背的！！</p>
+<p>一定要背起来！</p>
+<p>以下例子以 第三章， 做出 CRUD 功能的讨论版来解释：</p>
+<ul>
+<li>讨论版这个功能的名称： groups。Restful 的概念里面叫做 resources，“一组资源”。</li>
+</ul>
+<p>为了要控制它的运作，我们会创建一个新的 Controller档案 叫做 groups_controller.rb</p>
+<p>HTTP Verb 有四种：</p>
+<ul>
+<li>新增 (create，使用 POST )</li>
+<li>读取 (read，使用 GET )</li>
+<li>更新 (update，使用 PUT )</li>
+<li>删除 (destroy，使用 DELETE)</li>
+</ul>
+<p>在这组 controller 当中，我们会实作 7 个 Action ，4 张页面。</p>
+<ul>
+<li>首页( index )：用来列出所有的讨论版，可以选择各个单版 （使用 GET )</li>
+<li>各个讨论版专属页面(show)：显示讨论版版名跟简介 (使用 GET )</li>
+<li>新增页面(new)：里面会有表单，填完以后可以送出 (使用 GET )</li>
+<li>产生资料（create) ：new 送出来的表单到 create 这个 action，新增一笔资料 ( 使用 POST )</li>
+<li>修改页面(edit)：里面会有表单呈现现有资料来，填完资料后可以送出 (使用 GET )</li>
+<li>更新资料（update)：edit 送出来的表单可以到 update 这个 action，更新该笔资料 (使用 PUT )</li>
+<li>删除资料：送出删除请求，删除该笔资料（使用 DELETE）</li>
+</ul>
+<p>这七个 action ，是每个CRUD功能里最基本的动作。只要我们在 controller.rb 里定义 (def) 好这七个方法当作动作 (action)。其他的部分 Rails 就会帮我们处理了。</p>
+<p>像是设定 Routing (路由) 只需要简单一行:</p>
+<p>config/routes.rb</p>
+<p>  resources :groups</p>
+<p>​    </p>
+<p>这样不管浏览器端跑来什么样的请求 (request) ，Routing都会聪明地帮我们导向正确的 action 去运作后续流程。</p>
+<p>网址对应关系</p>
+<p>对于网址跟对应的Action与页面来说</p>
+<ul>
+<li>/groups/ 一定就是 index，首页，对应Routes路径： groups_path</li>
+<li>/groups/123 一定就是 show，名字为123的讨论版个版页面，对应Routes路径： group_path(123)</li>
+<li>/groups/123/edit 一定就是 edit，修改讨论版123的表单页面，对应Routes路径：edit_group_path(123)</li>
+<li>/groups/new 一定就是 new，新增讨论版的表单页面，对应Routes路径(或称为helper)：new_group_path 总结</li>
+</ul>
+<p>所以制作一个 RESTful 风格的讨论版，我们仅需在Routes设定一行程式即可</p>
 
       
     </div>
@@ -420,17 +460,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/22/通过自学多维度打造竞争力/" rel="next" title="通过自学多维度打造竞争力">
-                <i class="fa fa-chevron-left"></i> 通过自学多维度打造竞争力
+              <a href="/2016/11/27/Intro-to-Rails-Rails-入门详解/" rel="next" title="Intro to Rails-Rails 入门详解">
+                <i class="fa fa-chevron-left"></i> Intro to Rails-Rails 入门详解
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/10/04/我的元认知能力开始被激活/" rel="prev" title="我的元认知能力开始被激活">
-                我的元认知能力开始被激活 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -727,9 +763,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'daijianlin';
-      var disqus_identifier = '2016/10/04/我的精读实践初心得/';
-      var disqus_title = "我的精读实践初心得";
-      var disqus_url = 'http://yoursite.com/2016/10/04/我的精读实践初心得/';
+      var disqus_identifier = '2016/11/28/Rails-的-CRUD-与-RESTful/';
+      var disqus_title = "Rails 的 CRUD 与 RESTful";
+      var disqus_url = 'http://yoursite.com/2016/11/28/Rails-的-CRUD-与-RESTful/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
