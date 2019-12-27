@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <a href="file:///Users/daijianlin/invest.html" style="color:blue;">主页面</a>
+    <a href="file:///Users/daijianlin/invest-high.html" style="color:red;">高点判断页面</a>
+    <a href="file:///Users/daijianlin/invest-low.html" style="color:green;">低点判断页面</a>
+    <a href="https://www.lookintobitcoin.com/charts/mvrv-zscore/" style="color:green;">MVRV高低点判断-总市值</a>
+    <a href="file:///Users/daijianlin/invest-bch-high.html" style="color:green;">BCH页面</a>
+    <script src="echarts.js"></script>
+
+</head>
+<body>
+    <div id="main" style="width:1200px; height:2100px"></div>
+    <script type="text/javascript" src="btcdata.json"></script>
+    <script type="text/javascript">
+        // Get data from json file
+        var mydata = JSON.parse(data);
+        var timeData = mydata.date;
+        var priceData = mydata.price;
+        var growData30 = mydata.growth_30_day;
+        var growData60 = mydata.growth_60_day;
+        var growData90 = mydata.growth_90_day;
+        var growData180 = mydata.growth_180_day;
+        var growData360 = mydata.growth_360_day;
+        var growData540 = mydata.growth_540_day;
+        var growData730 = mydata.growth_730_day;
+
+        var geomean_200 = mydata.geomean_200_day;
+        var ma_730 = mydata.ma_730_day;
+        var ma_730_x5 = mydata.ma_730_day_x5;
+
+        var ma_111 = mydata.ma_111_day;
+        var ma_350_x2 = mydata.ma_350_x2_day;
+
+        var ma_350 = mydata.ma_350_day;
+        var ma_350_x1point6 = mydata.ma_350_x1point6_day;
+
+        var ma_350_x21 = mydata.ma_350_x21_day;
+        var ma_350_x13 = mydata.ma_350_x13_day;
+        var ma_350_x8 = mydata.ma_350_x8_day;
+        var ma_350_x5 = mydata.ma_350_x5_day;
+        var ma_350_x3 = mydata.ma_350_x3_day;
+
+        var power_law = mydata.power_law_value
+        var power_law_max = mydata.power_law_max_value
+        var power_law_min = mydata.power_law_min_value
+        var ahr999 = mydata.ahr999
+
+        // Green Buy Zone = BEAM <= 0.07
+        // Gray Hodl Zone = n > Halving – 240 days && n < Halving + 240 days
+        // Red Sell Zone = BEAM >= 0.96
+        var beam = mydata.beam
+        var beam_lower_line = mydata.ma_1400_day
+        var beam_upper_line = mydata.ma_1400_day_x12
+
+        // Init echarts
+        var myChart = echarts.init(document.getElementById('main'));
+        // set option
+        var option = {
+            title: {
+               text: '比特币高点分析',
+               x: 'center'
+            },    
+           axisPointer: {
+               link: {xAxisIndex: 'all'}
+           },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    animation: false,
+                    type: 'cross', //line, cross, shadow
+                },
+                position: [5, 800],
+
+                // formatter: function (params) {
+                //     let newParams = [];
+                //     let tooltipString = [];
+                //     newParams = [...params];
+                //     // newParams.sort((a,b) => {return b.value - a.value});
+
+                //     newParams.forEach((p) => {
+                //         // if (p.seriesName == 'BTC Price') {
+                //         //     const cont = '<br/>' + p.marker + ' ' + p.seriesName + ': ' + p.value + '<br/>';
+                //         //  } else {
+                //         //     const cont = p.marker + ' ' + p.seriesName + ': ' + p.value + '<br/>';
+                //         //     } 
+                //         const cont = p.marker + ' ' + p.seriesName + ': ' + p.value + '<br/>';
+                //         tooltipString.push(cont);
+                //     });
+                //     return params[0].name + '<br/>' + tooltipString.join('');
+                // }
+
+
+            },
+            legend: {
+                right: 100,
+                
+                top: 30,
+                data:['ahr999', '拟合最高价','拟合价',  '拟合最低价', '200定投价', 'ma350x3',
+                      'BEAM', 'BEAM上线', 'BEAM下线',
+                      'ma111', 'ma350x2','ma350x1.6','ma350','ma两年x5',  'ma两年',
+                      '30d累涨(%)', '60d累涨(%)', '90d累涨(%)', '180d累涨(%)', '360d累涨(%)', '540d累涨(%)', '730d累涨(%)', 
+                      'ma350x5', 'ma350x8', 'ma350x13', 'ma350x21'],
+                selected: {
+                    'ma350x21' : false,
+                    'ma350x13' : false,
+                    'ma350x8' :false,
+                    'ma350x1.6' :false,
+                    'ma350' :false,
+                    'ma两年x5' :false,
+                    'ma两年' :false,
+                    '30d累涨(%)' :false,
+                    '90d累涨(%)' :false,
+                    '180d累涨(%)' :false,
+                    '360d累涨(%)' :false,
+                    '540d累涨(%)' :false,
+                    '730d累涨(%)' :false,
+                    '200定投价' :false,
+                }
+            },
+
+
+            // the dataZoom shown on the bottom.
+            dataZoom: [{
+                show: true,
+                realtime: true,
+                // top: '50%',
+                start: 0,
+                end: 100,
+                xAxisIndex: [0,1,2,3]
+            }],
+            grid: [{
+                left: 240,
+                top: '6%',
+                height: '19%'
+            },{
+                left: 240,
+                top: '30%',
+                height: '19%'
+            },{
+                left: 240,
+                top: '54%',
+                height: '19%'
+            },{
+                left: 240,
+                top: '78%',
+                height: '19%'
+            }],
+            xAxis: [{
+                gridIndex: 0,
+                type : 'category',
+                boundaryGap : false,
+                axisLine: {onZero: true},
+                data: timeData
+            }, {
+                gridIndex: 1,
+                type : 'category',
+                boundaryGap : false,
+                axisLine: {onZero: true},
+                data: timeData
+            }, {
+                gridIndex: 2,
+                type : 'category',
+                boundaryGap : false,
+                axisLine: {onZero: true},
+                data: timeData
+            }, {
+                gridIndex: 3,
+                type : 'category',
+                boundaryGap : false,
+                axisLine: {onZero: true},
+                data: timeData
+            }],
+            yAxis: [
+                {   //表示0的y轴的第一个
+                    gridIndex: 0,
+                    name : 'BTC Price',
+                    type : 'log'
+                },
+                {   //表示0的y轴的第二个
+                    gridIndex: 0,
+                    name : 'ahr999',
+                    type : 'log'
+                    
+                },                
+                {   //表示x轴为1的y轴的第一个
+                    gridIndex: 1,
+                    name : 'BTC Price',
+                    type : 'log'
+                },
+
+                {   //表示x轴为1的y轴的第二个
+                    gridIndex: 1,
+                    name : 'BEAM',
+                    type : 'value'
+                },
+
+                {
+                    gridIndex: 2,
+                    name : 'BTC Price',
+                    type : 'log'
+                },
+                {
+                    gridIndex: 2,
+                    name : 'PI(ma111穿越ma350x2)',
+                    type : 'value'
+                },
+                {
+                    gridIndex: 3,
+                    name : 'BTC Price',
+                    type : 'log'
+                },
+                {
+                    gridIndex: 3,
+                    name : '泡沫指数',
+                    type : 'value'
+                }
+
+            ],
+
+            series : [
+                {
+                    xAxisIndex: 0,
+                    yAxisIndex: 1,
+                    name : 'ahr999',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : ahr999,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "red",  //灰色 #757575
+                            "borderColor": "red"
+                        }
+                    },
+                     "lineStyle": {
+                        width: 1.5,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    },
+                    markLine: {
+                        data: [{
+                           name: 'first',
+                           yAxis: '1.2'
+                        }, {
+                           name: 'second',
+                           yAxis: '0.45'
+                        }, {
+                           name: 'second',
+                           yAxis: '5'
+                        }]
+                    }
+                    
+                },
+                {
+                    xAxisIndex: 0,
+                    yAxisIndex : 0,
+                    name : '比特币价格',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : priceData,
+                    markLine: {
+                        data: [{
+                           name: 'first halfing',
+                           xAxis: '2012/11/28'
+                        }, {
+                           name: 'second halfing',
+                           xAxis: '2016/07/10'
+                        }]
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    },
+                    "itemStyle": {
+                        "normal": {
+                            "color": "#123363",
+                            "borderColor": "#123363"
+                        }
+                        // type: 'dashed', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+                {
+                    xAxisIndex: 0,
+                    yAxisIndex: 0,
+                    name : '拟合最高价',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : power_law_max,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "#D50000",
+                            "borderColor": "#D50000"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'dashed', // 'solid', 'dashed' or 'dotted'
+                    }
+                    
+                },
+
+                {
+                    xAxisIndex: 0,
+                    yAxisIndex: 0,
+                    name : '拟合价',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : power_law,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "#9C27B0",
+                            "borderColor": "#9C27B0"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'dashed', // 'solid', 'dashed' or 'dotted'
+                    }
+                    
+                },
+                
+                {
+                    xAxisIndex: 0,
+                    yAxisIndex: 0,
+                    name : '拟合最低价',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : power_law_min,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "#4CAF50",
+                            "borderColor": "#4CAF50"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'dashed', // 'solid', 'dashed' or 'dotted'
+                    }
+                    
+                },
+                {
+                    xAxisIndex: 0,
+                    yAxisIndex: 0,
+                    name : '200定投价',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : geomean_200,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "#FF6E40",
+                            "borderColor": "#FF6E40"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1.2,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    }
+                    
+                },
+                {
+                    xAxisIndex: 0,
+                    yAxisIndex: 0,
+                    name : 'ma350x3',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : ma_350_x3,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "#2962FF",
+                            "borderColor": "#2962FF"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'dashed', // 'solid', 'dashed' or 'dotted'
+                    }
+                    
+                },
+                
+                
+                // 第三个纵轴
+                {   
+                    xAxisIndex: 1,
+                    yAxisIndex: 3,
+                    name : 'BEAM',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : beam,
+                     "itemStyle": {
+                        "normal": {
+                            "color": "#D500F9",
+                            "borderColor": "#D500F9"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1.5,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+                {   
+                    xAxisIndex: 1,
+                    yAxisIndex: 2,
+                    name : 'Price',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : priceData,
+                     "itemStyle": {
+                        "normal": {
+                            "color": "#123363",
+                            "borderColor": "#123363"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', 
+                    }
+                },
+                
+                {   
+                    xAxisIndex: 1,
+                    yAxisIndex: 2,
+                    name : 'BEAM上线',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : beam_upper_line,
+                    markArea: {
+                        data: [ [{
+                            name: '逃顶区域',
+                            xAxis: '2011/05/13'
+                        }, {
+                            xAxis: '2011/05/17'
+                        }], [{
+                            name: '',
+                            xAxis: '2011/01/14'
+                        }, {
+                            xAxis: '2011/01/21'
+                        }], [{
+                            name: '',
+                            xAxis: '2011/06/03'
+                        }, {
+                            xAxis: '2011/06/14'
+                        }], [{
+                            name: '',
+                            xAxis: '2013/03/31'
+                        }, {
+                            xAxis: '2013/04/11'
+                        }], [{
+                            name: '',
+                            xAxis: '2013/04/20'
+                        }, {
+                            xAxis: '2013/04/30'
+                        }], [{
+                            name: '',
+                            xAxis: '2013/11/12'
+                        }, {
+                            xAxis: '2014/01/27'
+                        }], [{
+                            name: '',
+                            xAxis: '2017/12/05'
+                        }, {
+                            xAxis: '2017/12/23'
+                        }] ]
+                    },
+                     "itemStyle": {
+                        "normal": {
+                            "color": "red",
+                            "borderColor": "red"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+                {   
+                    xAxisIndex: 1,
+                    yAxisIndex: 2,
+                    name : 'BEAM下线',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : beam_lower_line,
+                     "itemStyle": {
+                        "normal": {
+                            "color": "#00E676",
+                            "borderColor": "#00E676"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+
+                
+                // 第五个纵轴
+                {   
+                    xAxisIndex: 2,
+                    yAxisIndex: 4,
+                    name : 'Price',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : priceData,
+                     "itemStyle": {
+                        "normal": {
+                            "color": "#123363",
+                            "borderColor": "#123363"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', 
+                    }
+                },
+                {   
+                    xAxisIndex: 2,
+                    yAxisIndex: 4,
+                    name : 'ma111',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : ma_111,
+                    markLine: {
+                        data: [{
+                           name: '第一次最高点',
+                           xAxis: '2013/04/08'
+                        }, {
+                           name: '第二次最高点',
+                           xAxis: '2013/12/06'
+                        }, {
+                           name: '第三次最高点',
+                           xAxis: '2017/12/16'
+                        }]
+                    },
+                     "itemStyle": {
+                        "normal": {
+                            "color": "#FF6E40",
+                            "borderColor": "#FF6E40"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+                {   
+                    xAxisIndex: 2,
+                    yAxisIndex: 4,
+                    name : 'ma350x2',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : ma_350_x2,
+                     "itemStyle": {
+                        "normal": {
+                            "color": "#D500F9",
+                            "borderColor": "#D500F9"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+                {   
+                    xAxisIndex: 2,
+                    yAxisIndex: 4,
+                    name : 'ma350x1.6',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : ma_350_x1point6,
+                     "itemStyle": {
+                        "normal": {
+                            "color": "#2962FF",
+                            "borderColor": "#2962FF"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'dashed', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+                {   
+                    xAxisIndex: 2,
+                    yAxisIndex: 4,
+                    name : 'ma350',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : ma_350,
+                     "itemStyle": {
+                        "normal": {
+                            "color": "#00E676",
+                            "borderColor": "#00E676"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'dashed', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+                
+                {   
+                    xAxisIndex: 2,
+                    yAxisIndex: 4,
+                    name : 'ma两年x5',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : ma_730_x5,
+                    markArea: {
+                        data: [ [{
+                            name: '',
+                            xAxis: '2017/11/06'
+                        }, {
+                            xAxis: '2018/01/16'
+                        }], [{
+                            name: '',
+                            xAxis: '2013/11/04'
+                        }, {
+                            xAxis: '2014/02/08'
+                        }], [{
+                            name: '',
+                            xAxis: '2013/03/11'
+                        }, {
+                            xAxis: '2013/06/12'
+                        }]]
+                    },
+                     "itemStyle": {
+                        "normal": {
+                            "color": "#D50000",
+                            "borderColor": "#D50000"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+                
+                {   
+                    xAxisIndex: 2,
+                    yAxisIndex: 4,
+                    name : 'ma两年',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : ma_730,
+                     "itemStyle": {
+                        "normal": {
+                            "color": "#4CAF50",
+                            "borderColor": "#4CAF50"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+                
+                
+                
+
+                // 第8个纵轴，泡沫指数数据。
+
+                {
+                    xAxisIndex: 3,
+                    yAxisIndex: 7,
+                    name : '30d累涨(%)',
+                    type : 'line',
+                    smooth : true,
+                    hoverAnimation : false,
+                    data : growData30,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "red",
+                            "borderColor": "red"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+                {
+                    xAxisIndex: 3,
+                    yAxisIndex: 7,
+                    name : '60d累涨(%)',
+                    type : 'line',
+                    smooth : true,
+                    hoverAnimation : false,
+                    data : growData60,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "#FF6D00",
+                            "borderColor": "#FF6D00"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1.5,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+                {
+                    xAxisIndex: 3,
+                    yAxisIndex: 7,
+                    name : '90d累涨(%)',
+                    type : 'line',
+                    smooth : true,
+                    hoverAnimation : false,
+                    data : growData90,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "#FFEB3B",//yellow
+                            "borderColor": "#FFEB3B"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+                {
+                    xAxisIndex: 3,
+                    yAxisIndex: 7,
+                    name : '180d累涨(%)',
+                    type : 'line',
+                    smooth : true,
+                    hoverAnimation : false,
+                    data : growData180,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "#00E676",//绿色
+                            "borderColor": "#00E676"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+                {
+                    xAxisIndex: 3,
+                    yAxisIndex: 7,
+                    name : '360d累涨(%)',
+                    type : 'line',
+                    smooth : true,
+                    hoverAnimation : false,
+                    data : growData360,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "#2962FF",//蓝色
+                            "borderColor": "#2962FF" 
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    }
+                }
+                ,
+                {
+                    xAxisIndex: 3,
+                    yAxisIndex: 7,
+                    name : '540d累涨(%)',
+                    type : 'line',
+                    smooth : true,
+                    hoverAnimation : false,
+                    data : growData540,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "#283593",
+                            "borderColor": "#283593" 
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+                {
+                    xAxisIndex: 3,
+                    yAxisIndex: 7,
+                    name : '730d累涨(%)',
+                    type : 'line',
+                    smooth : true,
+                    hoverAnimation : false,
+                    data : growData730,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "#D500F9",
+                            "borderColor": "#D500F9" 
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', // 'solid', 'dashed' or 'dotted'
+                    }
+                },
+                {   
+                    xAxisIndex: 3,
+                    yAxisIndex: 6,
+                    name : 'Price',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : priceData,
+                     "itemStyle": {
+                        "normal": {
+                            "color": "#123363",
+                            "borderColor": "#123363"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'solid', 
+                    }
+                },
+                {
+                    xAxisIndex: 3,
+                    yAxisIndex: 6,
+                    name : 'ma350x5',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : ma_350_x5,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "#00E676",
+                            "borderColor": "#00E676"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'dashed', // 'solid', 'dashed' or 'dotted'
+                    }
+                    
+                },
+                {
+                    xAxisIndex: 3,
+                    yAxisIndex: 6,
+                    name : 'ma350x8',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : ma_350_x8,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "#FFEB3B",
+                            "borderColor": "#FFEB3B"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'dashed', // 'solid', 'dashed' or 'dotted'
+                    }
+                    
+                },
+                {
+                    xAxisIndex: 3,
+                    yAxisIndex: 6,
+                    name : 'ma350x13',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : ma_350_x13,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "#FF6D00",
+                            "borderColor": "#FF6D00"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'dashed', // 'solid', 'dashed' or 'dotted'
+                    }
+                    
+                },
+                {
+                    xAxisIndex: 3,
+                    yAxisIndex: 6,
+                    name : 'ma350x21',
+                    type : 'line',
+                    hoverAnimation : false,
+                    data : ma_350_x21,
+                    "itemStyle": {
+                        "normal": {
+                            "color": "red",
+                            "borderColor": "red"
+                        }
+                    },
+                    "lineStyle": {
+                        width: 1,
+                        type: 'dashed', // 'solid', 'dashed' or 'dotted'
+                    }
+                    
+                }
+            ]
+        }
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
+
